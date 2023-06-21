@@ -22,15 +22,11 @@ public class LoginService {
 
 	@Autowired
 	RestTemplate restTemplate;
+	final static String client_id="auth-client";
 
-	@Value("auth-client")
-	private String client_id;
+	final static String client_secret="VHqrOzv6X9QeenxlyOTBN8ZCbqusZubD";
 
-	@Value("FqCNVMHcpNIrpix77bTFTRsph6vkSKsl")
-	private String client_secret;
-
-	@Value("password")
-	private String grant_type;
+	final static String grant_type="password";
 
 	public ResponseEntity<LoginResponse> login(LoginRequest loginrequest) {
 		HttpHeaders headers = new HttpHeaders();
