@@ -19,7 +19,7 @@ public class KeycloakConfig {
 	}
 	static Keycloak keycloak = null;
 	final static String serverUrl = "http://localhost:8080/auth";
-	public final static String realm = "lbv";
+	public final static String realm = "lbv-realm";
 	final static String clientId = "auth-client";
 	final static String clientSecret = "VHqrOzv6X9QeenxlyOTBN8ZCbqusZubD";
 	final static String userName = "admin";

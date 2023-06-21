@@ -16,11 +16,8 @@ import com.codetech.authserver.service.LoginService;
 @RestController
 @RequestMapping("/auth")
 public class LoginController {
-
-
 	@Autowired
 	LoginService loginservice;
-
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginrequest) {
 		return loginservice.login(loginrequest);
@@ -29,6 +26,4 @@ public class LoginController {
 	public ResponseEntity<Response> logout (@RequestBody TokenRequest token) {
 		return loginservice.logout(token);
 	}
-
-
 }

@@ -3,7 +3,6 @@ package com.codetech.authserver.service;
 
 import com.codetech.authserver.model.TokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +37,7 @@ public class LoginService {
 		map.add("username", loginrequest.getUsername());
 		map.add("password", loginrequest.getPassword());
 		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map,headers);
-		ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:8080/auth/realms/lbv/protocol/openid-connect/token", httpEntity, LoginResponse.class);
+		ResponseEntity<LoginResponse> response = restTemplate.postForEntity("http://localhost:8080/auth/realms/lbv-realm/protocol/openid-connect/token", httpEntity, LoginResponse.class);
 		return new ResponseEntity<>(response.getBody(),HttpStatus.OK);
 	}
 	public ResponseEntity<Response> logout(TokenRequest request) {
@@ -49,7 +48,7 @@ public class LoginService {
 		map.add("client_secret", client_secret);
 		map.add("refresh_token", request.getToken());
 		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(map,headers);
-		ResponseEntity<Response> response = restTemplate.postForEntity("http://localhost:8080/auth/realms/lbv/protocol/openid-connect/logout", httpEntity, Response.class);
+		ResponseEntity<Response> response = restTemplate.postForEntity("http://localhost:8080/auth/realms/lbv-realm/protocol/openid-connect/logout", httpEntity, Response.class);
 		Response res = new Response();
 		if(response.getStatusCode().is2xxSuccessful()) {
 			res.setMessage("Logged out successfully");
