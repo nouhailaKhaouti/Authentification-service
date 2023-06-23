@@ -18,19 +18,16 @@ public class UserController {
     @Autowired
     UserService userservice;
     @PostMapping("/")
-    @PreAuthorize("hasAuthority('ROLE_PROF')")
     public String addUser(@RequestBody RegisterRequest user){
-        userservice.addUser(user);
+        userservice.createUser(user);
         return "User Added Successfully.";
     }
     @GetMapping(path = "/{userName}")
-    @PreAuthorize("hasAuthority('prof')")
     public List<UserRepresentation> getUser(@PathVariable("userName") String userName){
         List<UserRepresentation> user = userservice.getUser(userName);
         return user;
     }
     @PutMapping(path = "/update/{userId}")
-    @PreAuthorize("hasAuthority('prof')")
     public String updateUser(@PathVariable("userId") String userId,   @RequestBody RegisterRequest user){
         userservice.updateUser(userId, user);
         return "User Details Updated Successfully.";

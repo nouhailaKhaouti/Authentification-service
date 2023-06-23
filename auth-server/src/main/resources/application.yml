@@ -1,0 +1,23 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/lbv-realm
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+      registration:
+        keycloak:
+          client-id: auth-client
+          client-secret: VHqrOzv6X9QeenxlyOTBN8ZCbqusZubD
+server:
+  port: 8090
+
+jwt:
+  auth:
+    converter:
+      resource-id: auth-client
+      principle-attribute: preferred_username
+
+logging:
+  level:
+    org.springframework.security: DEBUG
