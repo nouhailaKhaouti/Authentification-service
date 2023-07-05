@@ -3,11 +3,16 @@ package com.codetech.authserver.config;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.keycloak.adapters.springsecurity.client.KeycloakClientRequestFactory;
+import org.keycloak.adapters.springsecurity.client.KeycloakRestTemplate;
+import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
@@ -18,7 +23,6 @@ public class KeycloakConfig {
 	public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
 		return new KeycloakSpringBootConfigResolver();
 	}
-
 	@Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
 	private String issuerUri;
 
