@@ -3,6 +3,7 @@ package com.codetech.authserver.service;
 
 import com.codetech.authserver.model.TokenRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -21,11 +22,12 @@ public class LoginService {
 
 	@Autowired
 	RestTemplate restTemplate;
-	final static String client_id="auth-client";
-
-	final static String client_secret="VHqrOzv6X9QeenxlyOTBN8ZCbqusZubD";
-
-	final static String grant_type="password";
+	@Value("${spring.security.oauth2.registration.keycloak.client-secret}")
+	private String client_secret;
+	@Value("${spring.security.oauth2.registration.keycloak.client-id}")
+	private String client_id;
+	@Value("password")
+	private String grant_type;
 
 	public ResponseEntity<LoginResponse> login(LoginRequest loginrequest) {
 		HttpHeaders headers = new HttpHeaders();

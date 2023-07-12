@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userservice;
+    @Autowired
+    BearerTokenResolver bearerTokenResolver;
+
     @PostMapping("/")
     public String addUser(@RequestBody RegisterRequest user){
         userservice.createUser(user);
@@ -41,29 +45,31 @@ public class UserController {
         List<UserRepresentation> user = userservice.getUsersEnabled();
         return user;
     }
+    @GetMapping(path = "/users/email")
+    public List<UserRepresentation> findByEmail(@RequestParam("email") String email){
+        List<UserRepresentation> user = userservice.findByEmail(email);
+        return user;
+    }
     @PutMapping(path = "/update/{userId}")
-    public String updateUser(@PathVariable("userId") String userId,   @RequestBody RegisterRequest user){
-        userservice.updateUser(userId, user);
-        return "User Details Updated Successfully.";
+    public ResponseEntity<?> updateUser(@PathVariable("userId") String userId,   @RequestBody RegisterRequest user){
+        return userservice.updateUser(userId, user);
     }
     @DeleteMapping(path = "/{userId}")
 //    @PreAuthorize("hasRole('PROF')")
-    public String deleteUser(@PathVariable("userId") String userId){
-        userservice.deleteUser(userId);
-        return "User Deleted Successfully.";
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") String userId){
+
+        return userservice.deleteUser(userId);
     }
     @GetMapping("/info")
-    public ResponseEntity<?> userinfo(HttpServletRequest request){
-        return userservice.verifyToken(request);
+    public ResponseEntity<?> userinfo( @RequestParam("token") String token){
+        return userservice.verifyToken(token);
     }
-
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(@RequestParam("email") String email) {
-        boolean success = userservice.initiatePasswordReset(email);
-        if (success) {
-            return ResponseEntity.ok("Password reset email sent");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to initiate password reset");
-        }
+    public ResponseEntity<?> forgotPassword(@RequestParam("email") String email) {
+        return userservice.initiatePasswordReset(email);
+    }
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody String password,@RequestParam("token") String token) {
+        return userservice.resetPassword(token,password);
     }
 }
